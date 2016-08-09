@@ -1,0 +1,43 @@
+.commentWrapper {
+  border-radius: 5px;
+  width: 100%;
+  height: auto;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.titleWrapper {
+  height: 40px;
+  font-size: 14px;
+  line-height: 40px;
+  margin-left: 48px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.headPic {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 8px;
+}
+
+.commentFooter {
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.commentFooter span {
+  float: left;
+  margin-left: 10px;
+  width: 135px;
+  height: 35px;
+  border: 1px solid blue;
+  text-align: center;
+  line-height: 35px;
+  font--size: 15px;
+  border-radius: 4px;
+}

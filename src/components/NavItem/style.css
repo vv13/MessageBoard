@@ -1,0 +1,19 @@
+.navItem {
+  position: relative;
+  padding: 10px;
+  display: inline-block;
+}
+
+.navItemLink {
+  padding-left: 15px;
+  padding-right: 15px;
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.navItemWrap {
+  display: inline-block;
+  white-space: nowrap;
+}
