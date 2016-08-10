@@ -1,5 +1,6 @@
 .commentWrapper {
-  border-radius: 5px;
+  border: 1px solid #e0e3e9;
+  border-radius: 2px;
   width: 100%;
   height: auto;
   position: relative;
@@ -27,7 +28,7 @@
   width: 100%;
   height: 40px;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 9px;
 }
 
 .commentFooter span {
@@ -40,4 +41,5 @@
   line-height: 35px;
   font--size: 15px;
   border-radius: 4px;
+  cursor: pointer;
 }
