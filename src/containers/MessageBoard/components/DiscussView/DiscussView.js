@@ -3,6 +3,7 @@ import style from './style.css';
 
 import React, { Component, PropTypes } from 'react';
 import SendDiscussBox from '../SendDiscussBox';
+import Discuss from '../Discuss';
 
 class DiscussView extends Component {
   static propTypes = {
@@ -26,7 +27,9 @@ class DiscussView extends Component {
         </div>
         <div className={style.triangleBorder}>
         </div>
-        <SendDiscussBox />
+        <SendDiscussBox row="3" />
+        <Discuss />
+        <Discuss />
       </div>
     );
   }

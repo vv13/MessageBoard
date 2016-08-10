@@ -1,0 +1,43 @@
+.postBox {
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.postBoxLeft {
+  left: 0;
+  position: absolute;
+}
+
+.userHeadUrl {
+  position: relative;
+  z-index: 100;
+  background: #dbdfe4;
+  padding: 0;
+}
+
+.userHead {
+  width: 48px;
+  height: 48px;
+  display: block;
+  border-radius: 3px;
+  border: 0;
+  margin: 0;
+}
+
+.textWrap {
+  background: #fff;
+  margin-left: 65px;
+  margin-top: 20px;
+  width: 80%;
+  position:relative;
+}
+
+.replyBtn {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.replyBtn:hover {
+  color: blue;
+}
