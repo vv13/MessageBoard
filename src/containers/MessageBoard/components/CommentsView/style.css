@@ -1,0 +1,10 @@
+.commentsWrap {
+  z-index: -1;
+}
+
+.sendComment {
+  display: inline-block;
+  font-size: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}

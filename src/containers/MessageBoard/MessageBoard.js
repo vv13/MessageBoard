@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 // import { bindActionCreators } from 'redux';
 // import Nav from 'components/Nav';
 import Nav from 'components/Nav';
-import Comments from './components/CommentsView';
+import CommentsView from './components/CommentsView';
+
 // import * as actions from './actions';
 
 // function mapStateToProps(state) {
@@ -37,10 +38,9 @@ class MessageBoard extends Component {
     return (
       <div>
         <Nav />
-        <img src={"/img/background.jpg"} alt="back" className={style.headBackground} />
         <div className={style.centerWrapper}>
           <div className={style.commentWrap}>
-            <Comments />
+            <CommentsView />
           </div>
         </div>
       </div>
