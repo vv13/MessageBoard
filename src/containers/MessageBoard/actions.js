@@ -8,10 +8,11 @@ export function commentAdd(comment) {
   };
 }
 
-export function discussAdd(discuss) {
+export function discussAdd(commentId, discuss) {
   return {
     type: at.DISCUSS_ADD,
     discuss,
+    commentId,
   };
 }
 

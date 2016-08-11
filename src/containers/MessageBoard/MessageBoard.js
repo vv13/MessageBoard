@@ -18,6 +18,7 @@ function mapDispatchToProps(dispatch) {
   return {
     commentInitFunc: bindActionCreators(actions.commentInitFunc, dispatch),
     commentAddFunc: bindActionCreators(actions.commentAdd, dispatch),
+    discussAddFunc: bindActionCreators(actions.discussAdd, dispatch),
   };
 }
 
@@ -27,6 +28,7 @@ class MessageBoard extends Component {
     messageBoard: PropTypes.object.isRequired,
     commentInitFunc: PropTypes.func,
     commentAddFunc: PropTypes.func,
+    discussAddFunc: PropTypes.func,
   };
 
   constructor(props) {
@@ -43,7 +45,10 @@ class MessageBoard extends Component {
         <Nav />
         <div className={style.centerWrapper}>
           <div className={style.commentWrap}>
-            <CommentsView comments={comments} commentAdd={this.props.commentAddFunc} />
+            <CommentsView
+              comments={comments} commentAdd={this.props.commentAddFunc}
+              discussAdd={this.props.discussAddFunc}
+            />
           </div>
         </div>
       </div>

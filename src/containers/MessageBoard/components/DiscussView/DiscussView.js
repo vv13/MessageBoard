@@ -9,6 +9,8 @@ class DiscussView extends Component {
   static propTypes = {
     style: PropTypes.string,
     discuss: PropTypes.array,
+    discussAdd: PropTypes.func,
+    commentId: PropTypes.number,
   };
 
   static defaultProps = {
@@ -21,7 +23,7 @@ class DiscussView extends Component {
 
   genDiscuss() {
     const discussArr = this.props.discuss;
-    return discussArr.map((a) => <Discuss discuss={a} key={new Date()} />);
+    return discussArr.map((a) => <Discuss discuss={a} key={Math.random()} />);
   }
 
   render() {
@@ -33,7 +35,11 @@ class DiscussView extends Component {
         </div>
         <div className={style.triangleBorder}>
         </div>
-        <SendDiscussBox row="3" />
+        <SendDiscussBox
+          row="3"
+          discussAdd={this.props.discussAdd}
+          commentId={this.props.commentId}
+        />
         {this.genDiscuss()}
       </div>
     );

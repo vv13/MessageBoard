@@ -8,6 +8,7 @@ class CommentsView extends Component {
   static propTypes = {
     comments: PropTypes.array,
     commentAdd: PropTypes.func,
+    discussAdd: PropTypes.func,
   };
 
   constructor(props, context) {
@@ -68,7 +69,12 @@ class CommentsView extends Component {
   elGen() {
     const genArr = [];
     for (let i = 0; i < this.props.comments.length; i++) {
-      genArr.push(<Comment key={i} comment={this.props.comments[i]} />);
+      genArr.push(
+        <Comment
+          key={i}
+          comment={this.props.comments[i]}
+          discussAdd={this.props.discussAdd}
+        />);
     }
     return genArr;
   }

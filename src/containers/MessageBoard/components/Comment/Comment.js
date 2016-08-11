@@ -10,6 +10,7 @@ class Comment extends Component {
     // FIXME: tmp test
     test: PropTypes.bool,
     comment: PropTypes.object,
+    discussAdd: PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -43,7 +44,11 @@ class Comment extends Component {
             {this.state.showDiscuss ? '收起评论' : '评论'}
           </span>
         </footer>
-        {this.state.showDiscuss ? <DiscussView discuss={comment.discuss} /> : null}
+        {this.state.showDiscuss ?
+          <DiscussView
+            discuss={comment.discuss}
+            commentId={comment.id} discussAdd={this.props.discussAdd}
+          /> : null}
       </div>
     );
   }
