@@ -20,6 +20,5 @@ export function getComments() {
       comment: `回复${i}`,
     });
   }
-  console.log(obj);
   return obj;
 }

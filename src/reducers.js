@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import foo from 'containers/Foo/reducer';
+import messageBoard from 'containers/MessageBoard/reducer';
 
 
 export default function createReducer(asyncReducers) {
   return combineReducers({
-    foo,
+    messageBoard,
     routing: routerReducer,
     ...asyncReducers,
   });
 }
-
