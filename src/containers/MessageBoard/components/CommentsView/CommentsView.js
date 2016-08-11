@@ -1,11 +1,12 @@
 import style from './style.css';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Comment from '../Comment';
 import { Icon, Modal } from 'antd';
 import CommentWriter from '../CommentWriter';
 class CommentsView extends Component {
   static propTypes = {
+    comments: PropTypes.array,
   };
 
   constructor(props, context) {
@@ -38,7 +39,11 @@ class CommentsView extends Component {
   }
 
   elGen() {
-    return Array(10).fill(0).map((d, index) => <Comment key={index} />);
+    const genArr = [];
+    for (let i = 0; i < this.props.comments.length; i++) {
+      genArr.push(<Comment key={i} comment={this.props.comments[i]} />);
+    }
+    return genArr;
   }
 
   render() {

@@ -1,11 +1,12 @@
 
 import style from './style.css';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Icon } from 'antd';
 import SendDiscussBox from '../SendDiscussBox';
 class Discuss extends Component {
   static propTypes = {
+    discuss: PropTypes.object,
   };
 
   static defaultProps = {
@@ -19,23 +20,25 @@ class Discuss extends Component {
     };
     this.handleReplyClick = this.handleReplyClick.bind(this);
   }
+
   handleReplyClick() {
     this.setState({ showSendDiscuss: !this.state.showSendDiscuss });
   }
 
   render() {
+    const discuss = this.props.discuss;
     return (
       <div
         className={style.postBox}
       >
         <div className={style.postBoxLeft}>
           <a href="/img/default_head.png" className={style.userHeadUrl}>
-            <img alt="userhead" src="/img/default_head.png" className={style.userHead} />
+            <img alt="userhead" src={discuss.headUrl} className={style.userHead} />
           </a>
         </div>
         <div className={style.textWrap}>
-          <p>用户名·日期</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>{discuss.email}·{discuss.date}</p>
+          <p>{discuss.comment}</p>
           <span onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
           {this.state.showSendDiscuss ? <SendDiscussBox isReply /> : null}
         </div>

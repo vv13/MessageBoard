@@ -9,6 +9,7 @@ class Comment extends Component {
   static propTypes = {
     // FIXME: tmp test
     test: PropTypes.bool,
+    comment: PropTypes.object,
   };
   constructor(props) {
     super(props);
@@ -22,17 +23,18 @@ class Comment extends Component {
   }
 
   render() {
+    const comment = this.props.comment;
     return (
       <div
         className={style.commentWrapper}
       >
         <header className={style.titleWrapper}>
-          <img alt="头像" src="/img/default_head.png" className={style.headPic} />
-          zwhvv13@foxmial.com
+          <img alt="头像" src={comment.headUrl} className={style.headPic} />
+          {comment.email}·{comment.date}
         </header>
         <Line />
         <article style={{ padding: '10px' }}>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <p>{comment.comment}
           </p>
         </article>
         <footer className={style.commentFooter}>
@@ -41,7 +43,7 @@ class Comment extends Component {
             {this.state.showDiscuss ? '收起评论' : '评论'}
           </span>
         </footer>
-        {this.state.showDiscuss ? <DiscussView /> : null}
+        {this.state.showDiscuss ? <DiscussView discuss={comment.discuss} /> : null}
       </div>
     );
   }

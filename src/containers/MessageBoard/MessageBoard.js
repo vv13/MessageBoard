@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 // import Nav from 'components/Nav';
 import Nav from 'components/Nav';
 import CommentsView from './components/CommentsView';
-
+import * as staticApi from 'constants/staticApi';
 // import * as actions from './actions';
 
 // function mapStateToProps(state) {
@@ -33,14 +33,17 @@ class MessageBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    // 获取所有留言内容
+    this.state.comments = staticApi.getComments();
   }
+
   render() {
     return (
       <div>
         <Nav />
         <div className={style.centerWrapper}>
           <div className={style.commentWrap}>
-            <CommentsView />
+            <CommentsView comments={this.state.comments} />
           </div>
         </div>
       </div>
