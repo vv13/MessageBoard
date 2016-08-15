@@ -38,8 +38,15 @@ class Discuss extends Component {
       .then((res) => this.props.db.put(res));
   }
 
+  convertDate(time) {
+    const date = new Date(time);
+    const t = date.toLocaleTimeString();
+    const d = date.toLocaleDateString();
+    return `${t}  ${d}`;
+  }
+
   genReplyTitle(obj) {
-    const normalTitle = <p>{obj.email}·{obj.date}</p>;
+    const normalTitle = <p>{obj.email}·{this.convertDate(obj.date)}</p>;
     const replyTitle = <p>{obj.email}·回复：{obj.replyTo}</p>;
     return obj.replyTo ? replyTitle : normalTitle;
   }

@@ -3,6 +3,7 @@ import { Icon } from 'antd';
 import React, { Component, PropTypes } from 'react';
 import Line from 'components/Line';
 import DiscussView from '../DiscussView';
+import utils from 'utility';
 
 class Comment extends Component {
   static propTypes = {
@@ -20,6 +21,11 @@ class Comment extends Component {
     this.toggleDiscussView = this.toggleDiscussView.bind(this);
     this.removeComment = this.removeComment.bind(this);
   }
+
+  getHeadUrl(email) {
+    return 'https://www.gravatar.com/avatar/' + utils.md5(email);
+  }
+
   toggleDiscussView() {
     this.setState({ showDiscuss: !this.state.showDiscuss });
   }
@@ -27,6 +33,12 @@ class Comment extends Component {
   removeComment() {
     this.props.db.remove(this.props.comment);
   }
+
+  convertDate(time) {
+    const date = new Date(time);
+    return date.toLocaleDateString();
+  }
+
   render() {
     const comment = this.props.comment;
     return (
@@ -34,8 +46,8 @@ class Comment extends Component {
         className={style.commentWrapper}
       >
         <header className={style.titleWrapper}>
-          <img alt="头像" src={comment.headUrl} className={style.headPic} />
-          {comment.email}·{comment.date}
+          <img alt="头像" src={this.getHeadUrl(comment.email)} className={style.headPic} />
+          {comment.email}·{this.convertDate(comment.date)}
           <Icon type="cross" className={style.removeComment} onClick={this.removeComment} />
         </header>
         <Line />
