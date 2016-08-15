@@ -19,7 +19,6 @@ function mapDispatchToProps(dispatch) {
   return {
     commentInitFunc: bindActionCreators(actions.commentInitFunc, dispatch),
     commentAddFunc: bindActionCreators(actions.commentAdd, dispatch),
-    discussAddFunc: bindActionCreators(actions.discussAdd, dispatch),
   };
 }
 
@@ -61,7 +60,6 @@ class MessageBoard extends Component {
             <CommentsView
               comments={comments}
               commentAdd={this.props.commentAddFunc}
-              discussAdd={this.props.discussAddFunc}
               db={this.db}
             />
           </div>

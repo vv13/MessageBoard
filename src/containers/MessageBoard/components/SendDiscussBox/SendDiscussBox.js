@@ -9,7 +9,6 @@ class SendDiscussBox extends Component {
   static propTypes = {
     isReply: PropTypes.bool,
     discussAdd: PropTypes.func,
-    commentId: PropTypes.number,
   };
   constructor(props, context) {
     super(props, context);
@@ -21,7 +20,12 @@ class SendDiscussBox extends Component {
   }
   handleDiscussCommit() {
     // this.props.discussAdd
-    this.props.discussAdd(this.props.commentId, this.state.discussInput);
+    this.props.discussAdd({
+      discuss: this.state.discussInput,
+      email: 'zwhvv13@foxmail.com',
+      headUrl: '/img/default_head.png',
+      date: '16:40, 6/31/2016',
+    });
     this.setState({
       discussInput: '',
     });
@@ -54,8 +58,30 @@ class SendDiscussBox extends Component {
           </a>
         </div>
         <div className={style.textWrap}>
-          <Input placeholder="您想评论一点什么呢.." type="textarea" rows={this.props.isReply ? 1 : 3} value={this.state.discussInput} onChange={this.handleDiscussInput} />
-          {isReply ? <Button className={style.discussBtn} type="primary" size="small" style={replyBtnStyle}>评论</Button> : <Button className={style.discussBtn} type="primary" onClick={this.handleDiscussCommit} size="large">评论</Button>}
+          <Input
+            placeholder="您想评论一点什么呢.."
+            type="textarea" rows={this.props.isReply ? 1 : 3}
+            value={this.state.discussInput}
+            onChange={this.handleDiscussInput}
+          />
+          {isReply
+            ?
+            <Button
+              className={style.discussBtn}
+              type="primary" size="small"
+              style={replyBtnStyle}
+            >
+              评论
+            </Button>
+            :
+            <Button
+              className={style.discussBtn}
+              type="primary"
+              onClick={this.handleDiscussCommit}
+              size="large"
+            >
+              评论
+            </Button>}
         </div>
       </div>
     );

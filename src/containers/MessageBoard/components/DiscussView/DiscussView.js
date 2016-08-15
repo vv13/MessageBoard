@@ -9,8 +9,8 @@ class DiscussView extends Component {
   static propTypes = {
     style: PropTypes.string,
     discuss: PropTypes.array,
-    discussAdd: PropTypes.func,
-    commentId: PropTypes.number,
+    db: PropTypes.object,
+    commentId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -19,11 +19,21 @@ class DiscussView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
+    this.discussAdd = this.discussAdd.bind(this);
   }
 
   genDiscuss() {
     const discussArr = this.props.discuss;
     return discussArr.map((a) => <Discuss discuss={a} key={Math.random()} />);
+  }
+
+  discussAdd(obj) {
+    this.props.db.get(this.props.commentId)
+      .then(res => {
+        res.discuss.push(obj);
+        return res;
+      })
+      .then((res) => this.props.db.put(res));
   }
 
   render() {
@@ -37,7 +47,7 @@ class DiscussView extends Component {
         </div>
         <SendDiscussBox
           row="3"
-          discussAdd={this.props.discussAdd}
+          discussAdd={this.discussAdd}
           commentId={this.props.commentId}
         />
         {this.genDiscuss()}

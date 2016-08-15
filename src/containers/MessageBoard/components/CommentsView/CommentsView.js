@@ -8,7 +8,6 @@ class CommentsView extends Component {
   static propTypes = {
     comments: PropTypes.array,
     commentAdd: PropTypes.func,
-    discussAdd: PropTypes.func,
     db: PropTypes.object,
   };
 
@@ -75,7 +74,7 @@ class CommentsView extends Component {
         <Comment
           key={i}
           comment={this.props.comments[i].doc}
-          discussAdd={this.props.discussAdd}
+          db={this.props.db}
         />);
     }
     return genArr;

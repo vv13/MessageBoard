@@ -28,7 +28,6 @@ export function commentInitFunc(db) {
     db.allDocs({ include_docs: true, descending: true })
       .then(result => {
         dispatch(commentInit(result.rows));
-      })
-      .catch((error) => console.log(error));
+      });
   };
 }

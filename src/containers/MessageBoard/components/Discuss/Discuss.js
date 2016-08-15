@@ -38,7 +38,7 @@ class Discuss extends Component {
         </div>
         <div className={style.textWrap}>
           <p>{discuss.email}·{discuss.date}</p>
-          <p>{discuss.comment}</p>
+          <p>{discuss.discuss}</p>
           <span onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
           {this.state.showSendDiscuss ? <SendDiscussBox isReply /> : null}
         </div>
