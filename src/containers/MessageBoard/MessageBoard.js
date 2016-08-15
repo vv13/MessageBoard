@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import Nav from 'components/Nav';
 import CommentsView from './components/CommentsView';
 import * as actions from './actions';
+import PouchDB from 'pouchdb';
 
 function mapStateToProps(state) {
   const { messageBoard } = state;
@@ -34,8 +35,20 @@ class MessageBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // 初始化留言板
-    this.props.commentInitFunc();
+    const that = this;
+    // 初始化数据连接
+    this.db = new PouchDB('http://localhost:5984/listening');
+    // 初始化界面
+    this.rerenderUI();
+    // db发生改变则刷新界面
+    this.db.changes({
+      since: 'now',
+      live: true,
+    }).on('change', that.rerenderUI.bind(that));
+    this.rerenderUI = this.rerenderUI.bind(this);
+  }
+  rerenderUI() {
+    this.props.commentInitFunc(this.db);
   }
 
   render() {
@@ -46,8 +59,10 @@ class MessageBoard extends Component {
         <div className={style.centerWrapper}>
           <div className={style.commentWrap}>
             <CommentsView
-              comments={comments} commentAdd={this.props.commentAddFunc}
+              comments={comments}
+              commentAdd={this.props.commentAddFunc}
               discussAdd={this.props.discussAddFunc}
+              db={this.db}
             />
           </div>
         </div>

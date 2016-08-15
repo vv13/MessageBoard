@@ -27,4 +27,3 @@ match({ routes, location }, () => {
     window.document.getElementById('app')
   );
 });
-

@@ -1,5 +1,4 @@
 import * as at from 'constants/actionTypes';
-import * as staticApi from 'constants/staticApi';
 
 export function commentAdd(comment) {
   return {
@@ -16,17 +15,20 @@ export function discussAdd(commentId, discuss) {
   };
 }
 
-export function commentInit(comments) {
+function commentInit(comments) {
   return {
     type: at.COMMENT_INIT,
     comments,
   };
 }
 
-export function commentInitFunc() {
+export function commentInitFunc(db) {
   // 获取到留言，更新数据
-  const comments = staticApi.getComments();
-  return (dispatch) => (
-    dispatch(commentInit(comments))
-  );
+  return dispatch => {
+    db.allDocs({ include_docs: true, descending: true })
+      .then(result => {
+        dispatch(commentInit(result.rows));
+      })
+      .catch((error) => console.log(error));
+  };
 }

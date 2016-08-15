@@ -9,6 +9,7 @@ class CommentsView extends Component {
     comments: PropTypes.array,
     commentAdd: PropTypes.func,
     discussAdd: PropTypes.func,
+    db: PropTypes.object,
   };
 
   constructor(props, context) {
@@ -34,12 +35,13 @@ class CommentsView extends Component {
   handleOk() {
     // TODO 发送请求
     // 添加到props
-    this.props.commentAdd({
+    this.props.db.put({
+      _id: new Date().toISOString(),
       email: this.state.emailInput,
       headUrl: '/img/default_head.png',
       date: Date.now(),
       comment: this.state.commentInput,
-      discuss: [{}],
+      discuss: [],
     });
 
     // 关闭模态框
@@ -72,7 +74,7 @@ class CommentsView extends Component {
       genArr.push(
         <Comment
           key={i}
-          comment={this.props.comments[i]}
+          comment={this.props.comments[i].doc}
           discussAdd={this.props.discussAdd}
         />);
     }
