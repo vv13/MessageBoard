@@ -24,7 +24,7 @@ class DiscussView extends Component {
 
   genDiscuss() {
     const discussArr = this.props.discuss;
-    return discussArr.map((a) => <Discuss discuss={a} key={Math.random()} />);
+    return discussArr.map((a) => <Discuss discuss={a} key={Math.random()} db={this.props.db} commentId={this.props.commentId} />);
   }
 
   discussAdd(obj) {
@@ -48,7 +48,6 @@ class DiscussView extends Component {
         <SendDiscussBox
           row="3"
           discussAdd={this.discussAdd}
-          commentId={this.props.commentId}
         />
         {this.genDiscuss()}
       </div>

@@ -7,6 +7,8 @@ import SendDiscussBox from '../SendDiscussBox';
 class Discuss extends Component {
   static propTypes = {
     discuss: PropTypes.object,
+    db: PropTypes.object,
+    commentId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -19,10 +21,27 @@ class Discuss extends Component {
       showSendDiscuss: false,
     };
     this.handleReplyClick = this.handleReplyClick.bind(this);
+    this.discussAdd = this.discussAdd.bind(this);
   }
 
   handleReplyClick() {
     this.setState({ showSendDiscuss: !this.state.showSendDiscuss });
+  }
+
+  discussAdd(obj) {
+    const o = Object.assign({}, obj, { replyTo: this.props.discuss.email });
+    this.props.db.get(this.props.commentId)
+      .then(res => {
+        res.discuss.push(o);
+        return res;
+      })
+      .then((res) => this.props.db.put(res));
+  }
+
+  genReplyTitle(obj) {
+    const normalTitle = <p>{obj.email}·{obj.date}</p>;
+    const replyTitle = <p>{obj.email}·回复：{obj.replyTo}</p>;
+    return obj.replyTo ? replyTitle : normalTitle;
   }
 
   render() {
@@ -37,10 +56,10 @@ class Discuss extends Component {
           </a>
         </div>
         <div className={style.textWrap}>
-          <p>{discuss.email}·{discuss.date}</p>
-          <p>{discuss.discuss}</p>
+          {this.genReplyTitle(discuss)}
+          <p>{discuss.comment}</p>
           <span onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
-          {this.state.showSendDiscuss ? <SendDiscussBox isReply /> : null}
+          {this.state.showSendDiscuss ? <SendDiscussBox discussAdd={this.discussAdd} isReply /> : null}
         </div>
       </div>
     );

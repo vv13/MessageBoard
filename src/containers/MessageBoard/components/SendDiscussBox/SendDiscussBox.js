@@ -19,12 +19,12 @@ class SendDiscussBox extends Component {
     this.handleDiscussCommit = this.handleDiscussCommit.bind(this);
   }
   handleDiscussCommit() {
-    // this.props.discussAdd
     this.props.discussAdd({
-      discuss: this.state.discussInput,
+      discuss: [],
       email: 'zwhvv13@foxmail.com',
       headUrl: '/img/default_head.png',
-      date: '16:40, 6/31/2016',
+      date: Date.now(),
+      comment: this.state.discussInput,
     });
     this.setState({
       discussInput: '',
@@ -70,6 +70,7 @@ class SendDiscussBox extends Component {
               className={style.discussBtn}
               type="primary" size="small"
               style={replyBtnStyle}
+              onClick={this.handleDiscussCommit}
             >
               评论
             </Button>
