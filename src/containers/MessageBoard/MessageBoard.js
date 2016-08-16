@@ -19,6 +19,8 @@ function mapDispatchToProps(dispatch) {
   return {
     commentInitFunc: bindActionCreators(actions.commentInitFunc, dispatch),
     commentAddFunc: bindActionCreators(actions.commentAdd, dispatch),
+    emailDelete: bindActionCreators(actions.emailDelete, dispatch),
+    emailUpdate: bindActionCreators(actions.emailUpdate, dispatch),
   };
 }
 
@@ -29,6 +31,8 @@ class MessageBoard extends Component {
     commentInitFunc: PropTypes.func,
     commentAddFunc: PropTypes.func,
     discussAddFunc: PropTypes.func,
+    emailDelete: PropTypes.func,
+    emailUpdate: PropTypes.func,
   };
 
   constructor(props) {
@@ -51,16 +55,18 @@ class MessageBoard extends Component {
   }
 
   render() {
-    const { comments } = this.props.messageBoard.toJS();
+    const { comments, userEmail } = this.props.messageBoard.toJS();
     return (
       <div>
-        <Nav />
+        <Nav userEmail={userEmail} emailDelete={this.props.emailDelete} emailUpdate={this.props.emailUpdate} />
         <div className={style.centerWrapper}>
           <div className={style.commentWrap}>
             <CommentsView
               comments={comments}
               commentAdd={this.props.commentAddFunc}
               db={this.db}
+              emailUpdate={this.props.emailUpdate}
+              userEmail={userEmail}
             />
           </div>
         </div>

@@ -31,3 +31,20 @@ export function commentInitFunc(db) {
       });
   };
 }
+
+// 删除邮箱
+export function emailDelete() {
+  localStorage.removeItem('userEmail');
+  return {
+    type: at.EMAIL_DELETE,
+  };
+}
+
+// 更新邮箱
+export function emailUpdate(userEmail) {
+  localStorage.setItem('userEmail', userEmail);
+  return {
+    type: at.EMAIL_UPDATE,
+    userEmail,
+  };
+}

@@ -9,13 +9,15 @@ class CommentsView extends Component {
     comments: PropTypes.array,
     commentAdd: PropTypes.func,
     db: PropTypes.object,
+    emailUpdate: PropTypes.func,
+    userEmail: PropTypes.string,
   };
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       modalVisible: false,
-      emailInput: '',
+      emailInput: this.props.userEmail,
       commentInput: '',
     };
     this.showModal = this.showModal.bind(this);
@@ -26,22 +28,22 @@ class CommentsView extends Component {
   }
 
   showModal() {
+    this.state.emailInput = this.props.userEmail;
     this.setState({
       modalVisible: true,
     });
   }
 
   handleOk() {
-    // TODO 发送请求
     // 添加到props
     this.props.db.put({
       _id: new Date().toISOString(),
       email: this.state.emailInput,
-      headUrl: '/img/default_head.png',
       date: Date.now(),
       comment: this.state.commentInput,
       discuss: [],
     });
+    this.props.emailUpdate(this.state.emailInput);
 
     // 关闭模态框
     this.setState({
@@ -80,55 +82,61 @@ class CommentsView extends Component {
     return genArr;
   }
 
-  render() {
+  genMessageBox() {
     const FormItem = Form.Item;
+    return (
+      <Modal
+        title="留言"
+        visible={this.state.modalVisible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+      >
+        <div
+          className={style.WriterBox}
+        >
+          <Form horizontal>
+            <FormItem
+              className={style.zindexMax}
+              id="control-input"
+              label="邮箱"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input
+                id="control-input"
+                placeholder="Please enter..."
+                value={this.state.emailInput}
+                onChange={this.handleEmailChange}
+              />
+            </FormItem>
+
+            <FormItem
+              className={style.zindexMax}
+              id="control-textarea"
+              label="留言内容"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input
+                type="textarea"
+                id="control-textarea"
+                rows="3"
+                value={this.state.commentInput}
+                onChange={this.handleCommentChange}
+              />
+            </FormItem>
+          </Form>
+        </div>
+      </Modal>
+    );
+  }
+
+  render() {
     return (
       <div>
         <div className={style.sendComment} onClick={this.showModal}>
           <Icon type="edit" style={{ marginRight: '15px' }} />点我进行留言
-          <Modal
-            title="留言"
-            visible={this.state.modalVisible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-          >
-            <div
-              className={style.WriterBox}
-            >
-              <Form horizontal>
-                <FormItem
-                  className={style.zindexMax}
-                  id="control-input"
-                  label="邮箱"
-                  labelCol={{ span: 6 }}
-                  wrapperCol={{ span: 14 }}
-                >
-                  <Input
-                    id="control-input"
-                    placeholder="Please enter..."
-                    value={this.state.emailInput}
-                    onChange={this.handleEmailChange}
-                  />
-                </FormItem>
-
-                <FormItem
-                  className={style.zindexMax}
-                  id="control-textarea"
-                  label="留言内容"
-                  labelCol={{ span: 6 }}
-                  wrapperCol={{ span: 14 }}
-                >
-                  <Input
-                    type="textarea"
-                    id="control-textarea"
-                    rows="3"
-                    value={this.state.commentInput}
-                    onChange={this.handleCommentChange}
-                  />
-                </FormItem>
-              </Form>
-            </div>
-          </Modal>
+          {this.genMessageBox()}
         </div>
         <div className={style.commentsWrap}>
           {this.elGen()}

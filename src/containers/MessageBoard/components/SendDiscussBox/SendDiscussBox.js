@@ -2,33 +2,72 @@
 import style from './style.css';
 
 import React, { Component, PropTypes } from 'react';
-import { Input, Button } from 'antd';
+import { bindActionCreators } from 'redux';
+import { Input, Button, Form, Modal } from 'antd';
+import utils from 'utility';
+import { connect } from 'react-redux';
+import { emailUpdate } from '../../actions';
 
-// TODO 如何以更好的方式来进行动态的样式加载
+function mapStateToProps(state) {
+  const { messageBoard } = state;
+  return {
+    messageBoard,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    emailUpdateFunc: bindActionCreators(emailUpdate, dispatch),
+  };
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 class SendDiscussBox extends Component {
   static propTypes = {
     isReply: PropTypes.bool,
     discussAdd: PropTypes.func,
+    messageBoard: PropTypes.object.isRequired,
+    emailUpdateFunc: PropTypes.func,
   };
   constructor(props, context) {
     super(props, context);
     this.state = {
       discussInput: '',
+      modalVisible: false,
+      emailInput: '',
     };
     this.handleDiscussInput = this.handleDiscussInput.bind(this);
     this.handleDiscussCommit = this.handleDiscussCommit.bind(this);
+
+    this.handleOk = this.handleOk.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
   }
+
+  getHeadUrl(email) {
+    const md5 = utils.md5(email);
+    return `https://www.gravatar.com/avatar/${md5}`;
+  }
+
   handleDiscussCommit() {
-    this.props.discussAdd({
-      discuss: [],
-      email: 'zwhvv13@foxmail.com',
-      headUrl: '/img/default_head.png',
-      date: Date.now(),
-      comment: this.state.discussInput,
-    });
-    this.setState({
-      discussInput: '',
-    });
+    const { userEmail } = this.props.messageBoard.toJS();
+    const email = userEmail;
+    if (!email) {
+      this.setState({
+        modalVisible: true,
+      });
+    } else {
+      this.props.discussAdd({
+        discuss: [],
+        email,
+        date: Date.now(),
+        comment: this.state.discussInput,
+      });
+      this.setState({
+        discussInput: '',
+      });
+    }
+    // 邮箱输入框
   }
 
   handleDiscussInput(e) {
@@ -36,8 +75,67 @@ class SendDiscussBox extends Component {
       discussInput: e.target.value,
     });
   }
+
+  handleEmailChange(e) {
+    this.setState({ emailInput: e.target.value });
+  }
+
+  handleOk() {
+    // 设置邮箱
+    const email = this.state.emailInput;
+    this.props.emailUpdateFunc(email);
+    this.handleDiscussCommit();
+    // 关闭模态框
+    this.setState({
+      modalVisible: false,
+      emailInput: '',
+    });
+  }
+
+  handleCancel() {
+    this.setState({
+      modalVisible: false,
+      emailInput: '',
+      commentInput: '',
+    });
+  }
+
+  genModal() {
+    const FormItem = Form.Item;
+    return (
+      <Modal
+        title="设置您的邮箱"
+        visible={this.state.modalVisible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+      >
+        <div
+          className={style.WriterBox}
+        >
+          <Form horizontal>
+            <FormItem
+              className={style.zindexMax}
+              id="control-input"
+              label="邮箱"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input
+                id="control-input"
+                placeholder="Please enter..."
+                value={this.state.emailInput}
+                onChange={this.handleEmailChange}
+              />
+            </FormItem>
+          </Form>
+        </div>
+      </Modal>
+    );
+  }
+
   render() {
     const isReply = this.props.isReply;
+    const { userEmail } = this.props.messageBoard.toJS();
     const replyBtnStyle = {
       top: '3px',
       right: '-56px',
@@ -53,8 +151,8 @@ class SendDiscussBox extends Component {
         className={style.postBox}
       >
         <div className={style.postBoxLeft}>
-          <a href="/img/default_head.png" className={style.userHeadUrl}>
-            {isReply ? <img alt="userhead" style={replyHeadStyle} src="/img/default_head.png" className={style.userHead} /> : <img alt="userhead" src="/img/default_head.png" className={style.userHead} />}
+          <a className={style.userHeadUrl}>
+            {isReply ? <img alt="userhead" style={replyHeadStyle} src={this.getHeadUrl(userEmail)} className={style.userHead} /> : <img alt="userhead" src={this.getHeadUrl(userEmail)} className={style.userHead} />}
           </a>
         </div>
         <div className={style.textWrap}>
@@ -84,6 +182,7 @@ class SendDiscussBox extends Component {
               评论
             </Button>}
         </div>
+        {this.genModal()}
       </div>
     );
   }

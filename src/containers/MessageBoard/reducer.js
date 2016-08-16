@@ -3,6 +3,7 @@ import immutable from 'immutable';
 
 const initialState = immutable.fromJS({
   comments: [],
+  userEmail: localStorage.getItem('userEmail'),
 });
 
 export default function messageBoard(state = initialState, action) {
@@ -31,6 +32,11 @@ export default function messageBoard(state = initialState, action) {
       }
       return state.update('comments', () => immutable.fromJS(tmpComments));
     }
+    case at.EMAIL_DELETE:
+      return state.update('userEmail', () => null);
+    case at.EMAIL_UPDATE:
+      return state.update('userEmail', () => action.userEmail);
+
 
     default:
       return state;

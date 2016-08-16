@@ -17,12 +17,13 @@
 }
 
 .userHead {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   display: block;
   border-radius: 3px;
   border: 0;
   margin: 0;
+  margin-left: 10px;
 }
 
 .textWrap {

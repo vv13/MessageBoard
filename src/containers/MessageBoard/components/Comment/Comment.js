@@ -23,7 +23,8 @@ class Comment extends Component {
   }
 
   getHeadUrl(email) {
-    return 'https://www.gravatar.com/avatar/' + utils.md5(email);
+    const md5 = utils.md5(email);
+    return `https://www.gravatar.com/avatar/${md5}`;
   }
 
   toggleDiscussView() {

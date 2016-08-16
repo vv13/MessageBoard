@@ -4,6 +4,8 @@ import style from './style.css';
 import React, { Component, PropTypes } from 'react';
 import { Icon } from 'antd';
 import SendDiscussBox from '../SendDiscussBox';
+import { getHeadUrl } from 'constants/utils';
+
 class Discuss extends Component {
   static propTypes = {
     discuss: PropTypes.object,
@@ -38,6 +40,7 @@ class Discuss extends Component {
       .then((res) => this.props.db.put(res));
   }
 
+
   convertDate(time) {
     const date = new Date(time);
     const t = date.toLocaleTimeString();
@@ -58,8 +61,8 @@ class Discuss extends Component {
         className={style.postBox}
       >
         <div className={style.postBoxLeft}>
-          <a href="/img/default_head.png" className={style.userHeadUrl}>
-            <img alt="userhead" src={discuss.headUrl} className={style.userHead} />
+          <a href={getHeadUrl(discuss.email)} className={style.userHeadUrl}>
+            <img alt="userhead" src={getHeadUrl(discuss.email)} className={style.userHead} />
           </a>
         </div>
         <div className={style.textWrap}>
