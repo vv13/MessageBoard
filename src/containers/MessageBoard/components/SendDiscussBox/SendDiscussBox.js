@@ -58,7 +58,6 @@ class SendDiscussBox extends Component {
       });
     } else {
       this.props.discussAdd({
-        discuss: [],
         email,
         date: Date.now(),
         comment: this.state.discussInput,

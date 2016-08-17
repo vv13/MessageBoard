@@ -18,10 +18,11 @@
 }
 
 .userInfo {
-  position:absolute;
+  position: absolute;
   right: 0;
   top: 0;
 }
+
 .userInfo img {
   width: 30px;
   height: 30px;
@@ -44,6 +45,7 @@
   height: 25px;
   line-height: 25px;
 }
+
 .userChange li:hover {
-  background-color: #C0C0C0;
+  background-color: #c0c0c0;
 }

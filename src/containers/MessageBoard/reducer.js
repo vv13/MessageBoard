@@ -1,10 +1,22 @@
 import * as at from 'constants/actionTypes';
 import immutable from 'immutable';
 
+const getEmail = () => {
+  try {
+    if (localStorage) {
+      return localStorage.getItem('userEmail');
+    }
+    return '';
+  } catch (e) {
+    return '';
+  }
+};
+
 const initialState = immutable.fromJS({
   comments: [],
-  userEmail: localStorage.getItem('userEmail'),
+  userEmail: getEmail(),
 });
+
 
 export default function messageBoard(state = initialState, action) {
   let tmpList;
@@ -22,12 +34,7 @@ export default function messageBoard(state = initialState, action) {
       const tmpComments = state.get('comments').toJS();
       for (let i = 0; i < tmpComments.length; i++) {
         if (tmpComments[i].id === id) {
-          tmpComments[i].discuss.push({
-            email: 'zwhvv13@foxmail.com',
-            headUrl: '/img/default_head.png',
-            date: '16:40, 6/31/2016',
-            comment: discuss,
-          });
+          tmpComments[i].discuss.push(discuss);
         }
       }
       return state.update('comments', () => immutable.fromJS(tmpComments));

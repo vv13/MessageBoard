@@ -67,7 +67,7 @@ class Discuss extends Component {
         </div>
         <div className={style.textWrap}>
           {this.genReplyTitle(discuss)}
-          <p>{discuss.comment}</p>
+          <p className="discussComment">{discuss.comment}</p>
           <span onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
           {this.state.showSendDiscuss ? <SendDiscussBox discussAdd={this.discussAdd} isReply /> : null}
         </div>

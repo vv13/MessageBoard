@@ -7,8 +7,6 @@ import utils from 'utility';
 
 class Comment extends Component {
   static propTypes = {
-    // FIXME: tmp test
-    test: PropTypes.bool,
     comment: PropTypes.object,
     discussAdd: PropTypes.func,
     db: PropTypes.object,
@@ -48,7 +46,9 @@ class Comment extends Component {
       >
         <header className={style.titleWrapper}>
           <img alt="头像" src={this.getHeadUrl(comment.email)} className={style.headPic} />
+          <p>
           {comment.email}·{this.convertDate(comment.date)}
+          </p>
           <Icon type="cross" className={style.removeComment} onClick={this.removeComment} />
         </header>
         <Line />
