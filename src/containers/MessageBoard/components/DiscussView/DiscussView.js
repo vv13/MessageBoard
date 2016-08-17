@@ -22,11 +22,6 @@ class DiscussView extends Component {
     this.discussAdd = this.discussAdd.bind(this);
   }
 
-  genDiscuss() {
-    const discussArr = this.props.discuss;
-    return discussArr.map((a) => <Discuss discuss={a} key={Math.random()} db={this.props.db} commentId={this.props.commentId} />);
-  }
-
   discussAdd(obj) {
     this.props.db.get(this.props.commentId)
       .then(res => {
@@ -37,6 +32,7 @@ class DiscussView extends Component {
   }
 
   render() {
+    const discussArr = this.props.discuss;
     return (
       <div
         className={style.discussView}
@@ -49,7 +45,7 @@ class DiscussView extends Component {
           row="3"
           discussAdd={this.discussAdd}
         />
-        {this.genDiscuss()}
+      {discussArr.map((discuss) => <Discuss discuss={discuss} key={discuss.date} db={this.props.db} commentId={this.props.commentId} />)}
       </div>
     );
   }

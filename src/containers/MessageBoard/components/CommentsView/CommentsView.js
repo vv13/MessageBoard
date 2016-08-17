@@ -69,18 +69,6 @@ class CommentsView extends Component {
     this.setState({ commentInput: e.target.value });
   }
 
-  elGen() {
-    const genArr = [];
-    for (let i = 0; i < this.props.comments.length; i++) {
-      genArr.push(
-        <Comment
-          key={i}
-          comment={this.props.comments[i].doc}
-          db={this.props.db}
-        />);
-    }
-    return genArr;
-  }
 
   genMessageBox() {
     const FormItem = Form.Item;
@@ -132,6 +120,7 @@ class CommentsView extends Component {
   }
 
   render() {
+    const comments = this.props.comments;
     return (
       <div>
         <div className={style.sendComment} onClick={this.showModal}>
@@ -139,7 +128,13 @@ class CommentsView extends Component {
           {this.genMessageBox()}
         </div>
         <div className={style.commentsWrap}>
-          {this.elGen()}
+          {comments.map((comment, index) =>
+            <Comment
+              key={index}
+              comment={comment.doc}
+              db={this.props.db}
+            />
+          )}
         </div>
       </div>
     );

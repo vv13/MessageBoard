@@ -66,7 +66,6 @@ class SendDiscussBox extends Component {
         discussInput: '',
       });
     }
-    // 邮箱输入框
   }
 
   handleDiscussInput(e) {
