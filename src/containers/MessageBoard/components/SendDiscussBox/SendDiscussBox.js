@@ -2,6 +2,7 @@ import style from './style.css';
 import React, { Component, PropTypes } from 'react';
 import { Input, Button, Form, Modal } from 'antd';
 import utils from 'utility';
+import classnames from 'classnames';
 
 class SendDiscussBox extends Component {
   static propTypes = {
@@ -112,13 +113,39 @@ class SendDiscussBox extends Component {
     );
   }
 
-  render() {
+  genCommitBtn() {
     const isReply = this.props.isReply;
-    const { userEmail } = this.props.messageBoard.toJS();
     const replyBtnStyle = {
       top: '3px',
       right: '-56px',
     };
+    if (isReply) {
+      return (
+        <Button
+          className={style.discussBtn}
+          type="primary" size="small"
+          style={replyBtnStyle}
+          onClick={this.handleDiscussCommit}
+        >
+        评论
+        </Button>
+      );
+    }
+    return (
+      <Button
+        className={style.discussBtn}
+        type="primary"
+        onClick={this.handleDiscussCommit}
+        size="large"
+      >
+        评论
+      </Button>
+    );
+  }
+
+  render() {
+    const { userEmail } = this.props.messageBoard.toJS();
+    const isReply = this.props.isReply;
     const replyHeadStyle = {
       width: '35px',
       height: '35px',
@@ -131,7 +158,7 @@ class SendDiscussBox extends Component {
       >
         <div className={style.postBoxLeft}>
           <a className={style.userHeadUrl}>
-            {isReply ? <img alt="userhead" style={replyHeadStyle} src={this.getHeadUrl(userEmail)} className={style.userHead} /> : <img alt="userhead" src={this.getHeadUrl(userEmail)} className={style.userHead} />}
+            <img alt="userhead" style={replyHeadStyle} src={this.getHeadUrl(userEmail)} className={classnames({ [style.userHead]: !isReply, [style.replyHead]: isReply })} />
           </a>
         </div>
         <div className={style.textWrap}>
@@ -141,25 +168,7 @@ class SendDiscussBox extends Component {
             value={this.state.discussInput}
             onChange={this.handleDiscussInput}
           />
-          {isReply
-            ?
-            <Button
-              className={style.discussBtn}
-              type="primary" size="small"
-              style={replyBtnStyle}
-              onClick={this.handleDiscussCommit}
-            >
-              评论
-            </Button>
-            :
-            <Button
-              className={style.discussBtn}
-              type="primary"
-              onClick={this.handleDiscussCommit}
-              size="large"
-            >
-              评论
-            </Button>}
+        {this.genCommitBtn()}
         </div>
         {this.genModal()}
       </div>
