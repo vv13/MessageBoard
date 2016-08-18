@@ -50,20 +50,15 @@ class Comment extends Component {
       } else {
         doc.liked.push(this.props.userEmail);
       }
-      console.log(doc);
       return db.put(doc);
     })
-    .catch(err => {
-      console.log(err);
-      return err;
-    });
+    .catch(err => err);
   }
 
   render() {
     const comment = this.props.comment;
     const userEmail = this.props.userEmail;
     const isLiked = comment.liked.indexOf(userEmail) !== -1;
-    console.log(style.liked);
     return (
       <div
         className={style.commentWrapper}

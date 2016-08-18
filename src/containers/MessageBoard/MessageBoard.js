@@ -25,7 +25,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-class MessageBoard extends Component {
+class ConnMessageBoard extends Component {
   static propTypes = {
     messageBoard: PropTypes.object.isRequired,
     commentInitFunc: PropTypes.func,
@@ -38,24 +38,19 @@ class MessageBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    const that = this;
-    // 初始化数据连接
-    this.db = null;
-    new PouchDB('http://localhost:5984/listening')
-      .then(newdb => {
-        that.db = newdb;
-        that.db.changes({
-          since: 'now',
-          live: true,
-        }).on('change', that.rerenderUI.bind(that));
-        return null;
-      })
-      .then(() => {
-        that.rerenderUI = that.rerenderUI.bind(that);
-        that.rerenderUI();
-      });
   }
 
+  componentWillMount() {
+    const that = this;
+    // 初始化数据连接
+    this.db = new PouchDB('http://localhost:5984/listening');
+    this.db.changes({
+      since: 'now',
+      live: true,
+    }).on('change', that.rerenderUI.bind(that));
+    that.rerenderUI = that.rerenderUI.bind(that);
+    that.rerenderUI();
+  }
   rerenderUI() {
     this.props.commentInitFunc(this.db);
   }
@@ -81,4 +76,4 @@ class MessageBoard extends Component {
   }
 }
 
-export default MessageBoard;
+export default ConnMessageBoard;

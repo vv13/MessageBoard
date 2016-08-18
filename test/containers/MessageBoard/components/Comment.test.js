@@ -12,25 +12,27 @@ const props = {
 
 
 describe('Comment component', () => {
-  it('show show comment correctly', () => {
+  it('show comment correctly', () => {
     const comment = {
       date: 123123213123,
       discuss: [],
       email: 'zwhvv13@foxmail.com',
       headUrl: '/img/default_head.png',
       comment: 'test',
+      liked: [],
     };
     const wrap = shallow(<Comment comment={comment} {...props} />);
     expect(wrap.find('article p').text()).to.equal('test');
   });
 
-  it('show show date correctly', () => {
+  it('show date correctly', () => {
     const comment = {
       date: 123123213123,
       discuss: [],
       email: 'zwhvv13@foxmail.com',
       headUrl: '/img/default_head.png',
       comment: 'test',
+      liked: [],
     };
     const wrap = shallow(<Comment comment={comment} {...props} />);
     const d = new Date(comment.date).toLocaleDateString();

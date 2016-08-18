@@ -3,7 +3,7 @@ import style from './style.css';
 
 import React, { Component, PropTypes } from 'react';
 import { Icon } from 'antd';
-import SendDiscussBox from '../SendDiscussBox';
+import SendDiscussBoxConn from '../../SendDiscussBoxConn';
 import { getHeadUrl } from 'constants/utils';
 
 class Discuss extends Component {
@@ -43,7 +43,6 @@ class Discuss extends Component {
       });
   }
 
-
   convertDate(time) {
     const date = new Date(time);
     const t = date.toLocaleTimeString();
@@ -72,7 +71,7 @@ class Discuss extends Component {
           {this.genReplyTitle(discuss)}
           <p className="discussComment">{discuss.comment}</p>
           <span onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
-          {this.state.showSendDiscuss ? <SendDiscussBox discussAdd={this.discussAdd} isReply /> : null}
+          {this.state.showSendDiscuss ? <SendDiscussBoxConn discussAdd={this.discussAdd} isReply /> : null}
         </div>
       </div>
     );

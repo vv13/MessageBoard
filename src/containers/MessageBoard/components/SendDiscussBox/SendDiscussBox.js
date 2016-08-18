@@ -1,27 +1,8 @@
-
 import style from './style.css';
-
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { Input, Button, Form, Modal } from 'antd';
 import utils from 'utility';
-import { connect } from 'react-redux';
-import { emailUpdate } from '../../actions';
 
-function mapStateToProps(state) {
-  const { messageBoard } = state;
-  return {
-    messageBoard,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    emailUpdateFunc: bindActionCreators(emailUpdate, dispatch),
-  };
-}
-
-@connect(mapStateToProps, mapDispatchToProps)
 class SendDiscussBox extends Component {
   static propTypes = {
     isReply: PropTypes.bool,

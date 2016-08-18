@@ -2,7 +2,7 @@
 import style from './style.css';
 
 import React, { Component, PropTypes } from 'react';
-import SendDiscussBox from '../SendDiscussBox';
+import SendDiscussBoxConn from '../../SendDiscussBoxConn';
 import Discuss from '../Discuss';
 
 class DiscussView extends Component {
@@ -41,7 +41,7 @@ class DiscussView extends Component {
         </div>
         <div className={style.triangleBorder}>
         </div>
-        <SendDiscussBox
+        <SendDiscussBoxConn
           row="3"
           discussAdd={this.discussAdd}
         />
