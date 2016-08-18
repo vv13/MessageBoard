@@ -4,12 +4,14 @@ import React, { Component, PropTypes } from 'react';
 import Line from 'components/Line';
 import DiscussView from '../DiscussView';
 import utils from 'utility';
+import classnames from 'classnames';
 
 class Comment extends Component {
   static propTypes = {
     comment: PropTypes.object,
     discussAdd: PropTypes.func,
     db: PropTypes.object,
+    userEmail: PropTypes.string,
   };
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ class Comment extends Component {
     };
     this.toggleDiscussView = this.toggleDiscussView.bind(this);
     this.removeComment = this.removeComment.bind(this);
+    this.commentLike = this.commentLike.bind(this);
   }
 
   getHeadUrl(email) {
@@ -38,8 +41,29 @@ class Comment extends Component {
     return date.toLocaleDateString();
   }
 
+  commentLike() {
+    const db = this.props.db;
+    db.get(this.props.comment._id).then((doc) => {
+      const index = doc.liked.indexOf(this.props.userEmail);
+      if (index !== -1) {
+        doc.liked.splice(index, 1);
+      } else {
+        doc.liked.push(this.props.userEmail);
+      }
+      console.log(doc);
+      return db.put(doc);
+    })
+    .catch(err => {
+      console.log(err);
+      return err;
+    });
+  }
+
   render() {
     const comment = this.props.comment;
+    const userEmail = this.props.userEmail;
+    const isLiked = comment.liked.indexOf(userEmail) !== -1;
+    console.log(style.liked);
     return (
       <div
         className={style.commentWrapper}
@@ -57,7 +81,11 @@ class Comment extends Component {
           </p>
         </article>
         <footer className={style.commentFooter}>
-          <span><Icon type="heart" />喜欢</span>
+          <span
+            onClick={this.commentLike}
+          >
+            <Icon type="heart" className={classnames({ [style.liked]: isLiked })} />{isLiked ? '已喜欢' : '喜欢'}({comment.liked.length})
+          </span>
           <span onClick={this.toggleDiscussView}><Icon type="message" />
             {this.state.showDiscuss ? '收起评论' : `评论(${comment.discuss.length})`}
           </span>

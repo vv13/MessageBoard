@@ -37,7 +37,10 @@ class Discuss extends Component {
         res.discuss.push(o);
         return res;
       })
-      .then((res) => this.props.db.put(res));
+      .then((res) => {
+        this.props.db.put(res);
+        return res;
+      });
   }
 
 

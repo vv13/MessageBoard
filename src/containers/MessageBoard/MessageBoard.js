@@ -40,16 +40,22 @@ class MessageBoard extends Component {
     this.state = {};
     const that = this;
     // 初始化数据连接
-    this.db = new PouchDB('http://localhost:5984/listening');
-    // 初始化界面
-    this.rerenderUI();
-    // db发生改变则刷新界面
-    this.db.changes({
-      since: 'now',
-      live: true,
-    }).on('change', that.rerenderUI.bind(that));
-    this.rerenderUI = this.rerenderUI.bind(this);
+    this.db = null;
+    new PouchDB('http://localhost:5984/listening')
+      .then(newdb => {
+        that.db = newdb;
+        that.db.changes({
+          since: 'now',
+          live: true,
+        }).on('change', that.rerenderUI.bind(that));
+        return null;
+      })
+      .then(() => {
+        that.rerenderUI = that.rerenderUI.bind(that);
+        that.rerenderUI();
+      });
   }
+
   rerenderUI() {
     this.props.commentInitFunc(this.db);
   }

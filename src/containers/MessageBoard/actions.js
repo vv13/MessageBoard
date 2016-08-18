@@ -28,6 +28,7 @@ export function commentInitFunc(db) {
     db.allDocs({ include_docs: true, descending: true })
       .then(result => {
         dispatch(commentInit(result.rows));
+        return result;
       });
   };
 }
@@ -45,6 +46,13 @@ export function emailUpdate(userEmail) {
   localStorage.setItem('userEmail', userEmail);
   return {
     type: at.EMAIL_UPDATE,
+    userEmail,
+  };
+}
+
+export function commentLike(db, commentId, userEmail) {
+  return {
+    type: at.COMMENT_LIKE,
     userEmail,
   };
 }

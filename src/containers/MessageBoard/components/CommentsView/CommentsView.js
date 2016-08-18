@@ -35,22 +35,24 @@ class CommentsView extends Component {
   }
 
   handleOk() {
-    // 添加到props
+    // 添加评论
     this.props.db.put({
       _id: new Date().toISOString(),
       email: this.state.emailInput,
       date: Date.now(),
       comment: this.state.commentInput,
       discuss: [],
-    });
-    this.props.emailUpdate(this.state.emailInput);
-
-    // 关闭模态框
-    this.setState({
-      modalVisible: false,
-      emailInput: '',
-      commentInput: '',
-    });
+      liked: [],
+    })
+      .then(() => {
+        this.props.emailUpdate(this.state.emailInput);
+        // 关闭模态框
+        this.setState({
+          modalVisible: false,
+          emailInput: '',
+          commentInput: '',
+        });
+      });
   }
 
   handleCancel() {
@@ -133,6 +135,7 @@ class CommentsView extends Component {
               key={index}
               comment={comment.doc}
               db={this.props.db}
+              userEmail={this.props.userEmail}
             />
           )}
         </div>
