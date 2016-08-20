@@ -1,5 +1,4 @@
-import style from './style.css';
-import React, { Component, PropTypes } from 'react';
+import style from './style.css'; import React, { Component, PropTypes } from 'react';
 import { Input, Button, Form, Modal } from 'antd';
 import utils from 'utility';
 import classnames from 'classnames';
@@ -7,9 +6,10 @@ import classnames from 'classnames';
 class SendDiscussBox extends Component {
   static propTypes = {
     isReply: PropTypes.bool,
-    discussAdd: PropTypes.func,
     messageBoard: PropTypes.object.isRequired,
-    emailUpdateFunc: PropTypes.func,
+    actions: PropTypes.object,
+    commentId: PropTypes.string,
+    replyTo: PropTypes.string,
   };
   constructor(props, context) {
     super(props, context);
@@ -39,11 +39,15 @@ class SendDiscussBox extends Component {
         modalVisible: true,
       });
     } else {
-      this.props.discussAdd({
+      const discuss = {
         email,
         date: Date.now(),
         comment: this.state.discussInput,
-      });
+      };
+      if (this.props.replyTo) {
+        discuss.replyTo = this.props.replyTo;
+      }
+      this.props.actions.discussAdd(this.props.commentId, discuss);
       this.setState({
         discussInput: '',
       });
@@ -63,7 +67,7 @@ class SendDiscussBox extends Component {
   handleOk() {
     // 设置邮箱
     const email = this.state.emailInput;
-    this.props.emailUpdateFunc(email);
+    this.props.actions.emailUpdateFunc(email);
     this.handleDiscussCommit();
     // 关闭模态框
     this.setState({

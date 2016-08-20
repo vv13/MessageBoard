@@ -3,15 +3,14 @@ import { Icon } from 'antd';
 import React, { Component, PropTypes } from 'react';
 import Line from 'components/Line';
 import DiscussView from '../DiscussView';
-import utils from 'utility';
 import classnames from 'classnames';
+import { getHeadUrl } from 'constants/utils';
 
 class Comment extends Component {
   static propTypes = {
     comment: PropTypes.object,
-    discussAdd: PropTypes.func,
-    db: PropTypes.object,
     userEmail: PropTypes.string,
+    actions: PropTypes.object,
   };
   constructor(props) {
     super(props);
@@ -23,17 +22,12 @@ class Comment extends Component {
     this.commentLike = this.commentLike.bind(this);
   }
 
-  getHeadUrl(email) {
-    const md5 = utils.md5(email);
-    return `https://www.gravatar.com/avatar/${md5}`;
-  }
-
   toggleDiscussView() {
     this.setState({ showDiscuss: !this.state.showDiscuss });
   }
 
   removeComment() {
-    this.props.db.remove(this.props.comment);
+    this.props.actions.commentRemove(this.props.comment);
   }
 
   convertDate(time) {
@@ -42,17 +36,9 @@ class Comment extends Component {
   }
 
   commentLike() {
-    const db = this.props.db;
-    db.get(this.props.comment._id).then((doc) => {
-      const index = doc.liked.indexOf(this.props.userEmail);
-      if (index !== -1) {
-        doc.liked.splice(index, 1);
-      } else {
-        doc.liked.push(this.props.userEmail);
-      }
-      return db.put(doc);
-    })
-    .catch(err => err);
+    const commentId = this.props.comment._id;
+    const userEmail = this.props.userEmail;
+    this.props.actions.commentLike(commentId, userEmail);
   }
 
   render() {
@@ -64,7 +50,7 @@ class Comment extends Component {
         className={style.commentWrapper}
       >
         <header className={style.titleWrapper}>
-          <img alt="头像" src={this.getHeadUrl(comment.email)} className={style.headPic} />
+          <img alt="头像" src={getHeadUrl(comment.email)} className={style.headPic} />
           <p>
           {comment.email}·{this.convertDate(comment.date)}
           </p>
@@ -89,7 +75,7 @@ class Comment extends Component {
           <DiscussView
             discuss={comment.discuss}
             commentId={comment._id}
-            db={this.props.db}
+            actions={this.props.actions}
           /> : null}
       </div>
     );

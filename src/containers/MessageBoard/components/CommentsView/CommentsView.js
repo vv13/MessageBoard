@@ -7,10 +7,8 @@ import { Icon, Modal, Form, Input } from 'antd';
 class CommentsView extends Component {
   static propTypes = {
     comments: PropTypes.array,
-    commentAdd: PropTypes.func,
-    db: PropTypes.object,
-    emailUpdate: PropTypes.func,
     userEmail: PropTypes.string,
+    actions: PropTypes.object,
   };
 
   constructor(props, context) {
@@ -36,23 +34,21 @@ class CommentsView extends Component {
 
   handleOk() {
     // 添加评论
-    this.props.db.put({
+    const comment = {
       _id: new Date().toISOString(),
       email: this.state.emailInput,
       date: Date.now(),
       comment: this.state.commentInput,
       discuss: [],
       liked: [],
-    })
-      .then(() => {
-        this.props.emailUpdate(this.state.emailInput);
-        // 关闭模态框
-        this.setState({
-          modalVisible: false,
-          emailInput: '',
-          commentInput: '',
-        });
-      });
+    };
+    this.props.actions.commentAdd(comment);
+    this.props.actions.emailUpdate(this.state.emailInput);
+    this.setState({
+      modalVisible: false,
+      emailInput: '',
+      commentInput: '',
+    });
   }
 
   handleCancel() {
@@ -70,7 +66,6 @@ class CommentsView extends Component {
   handleCommentChange(e) {
     this.setState({ commentInput: e.target.value });
   }
-
 
   genMessageBox() {
     const FormItem = Form.Item;
@@ -133,9 +128,9 @@ class CommentsView extends Component {
           {comments.map((comment, index) =>
             <Comment
               key={index}
-              comment={comment.doc}
-              db={this.props.db}
+              comment={comment}
               userEmail={this.props.userEmail}
+              actions={this.props.actions}
             />
           )}
         </div>

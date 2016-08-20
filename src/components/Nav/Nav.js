@@ -9,6 +9,7 @@ class Nav extends Component {
     userEmail: PropTypes.string,
     emailDelete: PropTypes.func,
     emailUpdate: PropTypes.func,
+    actions: PropTypes.object,
   };
 
   constructor(props) {
@@ -26,7 +27,6 @@ class Nav extends Component {
 
   genUserInfo() {
     const email = this.props.userEmail;
-    const emailDelete = this.props.emailDelete;
     if (email) {
       return (
         <div className={style.userInfo}>
@@ -36,7 +36,7 @@ class Nav extends Component {
             <li onClick={this.showModal}>
               更改邮箱
             </li>
-            <li onClick={emailDelete}>
+            <li onClick={this.props.actions.emailDelete}>
               退出
             </li>
           </ul>
@@ -59,7 +59,7 @@ class Nav extends Component {
   handleOk() {
     // 设置邮箱
     const email = this.state.emailInput;
-    this.props.emailUpdate(email);
+    this.props.actions.emailUpdate(email);
 
     // 关闭模态框
     this.setState({

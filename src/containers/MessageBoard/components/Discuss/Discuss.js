@@ -9,8 +9,8 @@ import { getHeadUrl } from 'constants/utils';
 class Discuss extends Component {
   static propTypes = {
     discuss: PropTypes.object,
-    db: PropTypes.object,
     commentId: PropTypes.string,
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
@@ -23,24 +23,10 @@ class Discuss extends Component {
       showSendDiscuss: false,
     };
     this.handleReplyClick = this.handleReplyClick.bind(this);
-    this.discussAdd = this.discussAdd.bind(this);
   }
 
   handleReplyClick() {
     this.setState({ showSendDiscuss: !this.state.showSendDiscuss });
-  }
-
-  discussAdd(obj) {
-    const o = Object.assign({}, obj, { replyTo: this.props.discuss.email });
-    this.props.db.get(this.props.commentId)
-      .then(res => {
-        res.discuss.push(o);
-        return res;
-      })
-      .then((res) => {
-        this.props.db.put(res);
-        return res;
-      });
   }
 
   convertDate(time) {
@@ -71,7 +57,7 @@ class Discuss extends Component {
           {this.genReplyTitle(discuss)}
           <p className="discussComment">{discuss.comment}</p>
           <span onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
-          {this.state.showSendDiscuss ? <SendDiscussBoxConn discussAdd={this.discussAdd} isReply /> : null}
+          {this.state.showSendDiscuss ? <SendDiscussBoxConn actions={this.props.actions} replyTo={discuss.email} commentId={this.props.commentId} isReply /> : null}
         </div>
       </div>
     );

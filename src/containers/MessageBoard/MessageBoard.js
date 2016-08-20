@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux';
 // import Nav from 'components/Nav';
 import Nav from 'components/Nav';
 import CommentsView from './components/CommentsView';
-import * as actions from './actions';
-import PouchDB from 'pouchdb';
+import * as messageBoardActions from './actions';
 
 function mapStateToProps(state) {
   const { messageBoard } = state;
@@ -17,10 +16,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    commentInitFunc: bindActionCreators(actions.commentInitFunc, dispatch),
-    commentAddFunc: bindActionCreators(actions.commentAdd, dispatch),
-    emailDelete: bindActionCreators(actions.emailDelete, dispatch),
-    emailUpdate: bindActionCreators(actions.emailUpdate, dispatch),
+    messageBoardActions: bindActionCreators(messageBoardActions, dispatch),
+    // commentInitFunc: bindActionCreators(actions.commentInitFunc, dispatch),
+    // commentAddFunc: bindActionCreators(actions.commentAdd, dispatch),
+    // commentRemove: bindActionCreators(actions.commentRemove, dispatch),
+    // emailDelete: bindActionCreators(actions.emailDelete, dispatch),
+    // emailUpdate: bindActionCreators(actions.emailUpdate, dispatch),
   };
 }
 
@@ -28,45 +29,40 @@ function mapDispatchToProps(dispatch) {
 class ConnMessageBoard extends Component {
   static propTypes = {
     messageBoard: PropTypes.object.isRequired,
-    commentInitFunc: PropTypes.func,
-    commentAddFunc: PropTypes.func,
-    discussAddFunc: PropTypes.func,
-    emailDelete: PropTypes.func,
-    emailUpdate: PropTypes.func,
+    messageBoardActions: PropTypes.object.isRequired,
+    // commentInitFunc: PropTypes.func,
+    // commentAddFunc: PropTypes.func,
+    // commentRemove: PropTypes.func,
+    // discussAddFunc: PropTypes.func,
+    // emailDelete: PropTypes.func,
+    // emailUpdate: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
     this.state = {};
+    this.rerenderUI = this.rerenderUI.bind(this);
   }
 
   componentWillMount() {
-    const that = this;
-    // 初始化数据连接
-    this.db = new PouchDB('http://localhost:5984/listening');
-    this.db.changes({
-      since: 'now',
-      live: true,
-    }).on('change', that.rerenderUI.bind(that));
-    that.rerenderUI = that.rerenderUI.bind(that);
-    that.rerenderUI();
+    this.rerenderUI();
   }
+
   rerenderUI() {
-    this.props.commentInitFunc(this.db);
+    this.props.messageBoardActions.commentInitFunc();
   }
 
   render() {
     const { comments, userEmail } = this.props.messageBoard.toJS();
+    const actions = this.props.messageBoardActions;
     return (
       <div>
-        <Nav userEmail={userEmail} emailDelete={this.props.emailDelete} emailUpdate={this.props.emailUpdate} />
+        <Nav userEmail={userEmail} actions={actions} />
         <div className={style.centerWrapper}>
           <div className={style.commentWrap}>
             <CommentsView
+              actions={actions}
               comments={comments}
-              commentAdd={this.props.commentAddFunc}
-              db={this.db}
-              emailUpdate={this.props.emailUpdate}
               userEmail={userEmail}
             />
           </div>

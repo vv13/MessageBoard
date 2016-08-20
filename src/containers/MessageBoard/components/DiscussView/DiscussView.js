@@ -8,9 +8,9 @@ import Discuss from '../Discuss';
 class DiscussView extends Component {
   static propTypes = {
     style: PropTypes.string,
-    discuss: PropTypes.array,
-    db: PropTypes.object,
     commentId: PropTypes.string,
+    actions: PropTypes.object,
+    discuss: PropTypes.array,
   };
 
   static defaultProps = {
@@ -19,16 +19,6 @@ class DiscussView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
-    this.discussAdd = this.discussAdd.bind(this);
-  }
-
-  discussAdd(obj) {
-    this.props.db.get(this.props.commentId)
-      .then(res => {
-        res.discuss.push(obj);
-        return res;
-      })
-      .then((res) => this.props.db.put(res));
   }
 
   render() {
@@ -43,9 +33,10 @@ class DiscussView extends Component {
         </div>
         <SendDiscussBoxConn
           row="3"
-          discussAdd={this.discussAdd}
+          actions={this.props.actions}
+          commentId={this.props.commentId}
         />
-      {discussArr.map((discuss) => <Discuss discuss={discuss} key={discuss.date} db={this.props.db} commentId={this.props.commentId} />)}
+      {discussArr.map((discuss) => <Discuss discuss={discuss} key={discuss.date} commentId={this.props.commentId} actions={this.props.actions} />)}
       </div>
     );
   }
