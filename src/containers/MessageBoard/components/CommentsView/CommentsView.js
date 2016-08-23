@@ -120,7 +120,7 @@ class CommentsView extends Component {
     const comments = this.props.comments;
     return (
       <div>
-        <div className={style.sendComment} onClick={this.showModal}>
+        <div className={style.sendComment} id="sendComment" onClick={this.showModal}>
           <Icon type="edit" style={{ marginRight: '15px' }} />点我进行留言
           {this.genMessageBox()}
         </div>

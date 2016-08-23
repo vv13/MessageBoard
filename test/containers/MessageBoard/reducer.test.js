@@ -46,7 +46,7 @@ describe('reducers', () => {
     it('should handle DISCUSS_ADD correctly', () => {
       const comments = [
         {
-          id: 1,
+          _id: 1,
           discuss: [],
         },
       ];
@@ -60,7 +60,7 @@ describe('reducers', () => {
       });
       expect(result.get('comments').toJS()).to.be.eql([
         {
-          id: 1,
+          _id: 1,
           discuss: ['test'],
         },
       ]);
