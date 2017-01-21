@@ -1,6 +1,4 @@
-/node_modules
-/bower_components
-/dist
-/.idea
+node_modules
+bower_components
+dist
 .tern-project
-npm-debug.log
