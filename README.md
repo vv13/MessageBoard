@@ -1,1 +1,12 @@
-## Welcome to translate [user guide](docs/user_guide_zh.md) to English.
+## 客户端
+
+#### 运行
+```
+$ cd client
+$ yarn
+$ yarn start
+```
+
+
+## 服务端
+....待重构
