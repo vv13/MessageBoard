@@ -27,8 +27,7 @@ class Line extends Component {
       <div
         style={this.props.style}
         className={classnames(...className.split(), style.line)}
-      >
-      </div>
+      />
     );
   }
 }

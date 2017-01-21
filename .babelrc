@@ -1,12 +1,12 @@
 {
   "presets": [
-    "es2015",
+    "latest",
     "react",
     "stage-0"
   ],
   "plugins": [
     "transform-runtime",
     "babel-plugin-transform-decorators-legacy",
-    "antd"
+    ["import", {"libraryName": "antd"}]
   ]
 }

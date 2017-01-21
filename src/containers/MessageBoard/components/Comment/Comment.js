@@ -12,6 +12,12 @@ class Comment extends Component {
     userEmail: PropTypes.string,
     actions: PropTypes.object,
   };
+
+  static convertDate(time) {
+    const date = new Date(time);
+    return date.toLocaleDateString();
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +28,7 @@ class Comment extends Component {
     this.commentLike = this.commentLike.bind(this);
   }
 
+
   toggleDiscussView() {
     this.setState({ showDiscuss: !this.state.showDiscuss });
   }
@@ -30,10 +37,6 @@ class Comment extends Component {
     this.props.actions.commentRemove(this.props.comment);
   }
 
-  convertDate(time) {
-    const date = new Date(time);
-    return date.toLocaleDateString();
-  }
 
   commentLike() {
     const commentId = this.props.comment._id;
@@ -52,7 +55,7 @@ class Comment extends Component {
         <header className={style.titleWrapper}>
           <img alt="头像" src={getHeadUrl(comment.email)} className={style.headPic} />
           <p>
-          {comment.email}·{this.convertDate(comment.date)}
+            {comment.email}·{Comment.convertDate(comment.date)}
           </p>
           <Icon type="cross" className={style.removeComment} onClick={this.removeComment} />
         </header>

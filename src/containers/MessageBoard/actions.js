@@ -1,9 +1,10 @@
 import * as at from 'constants/actionTypes';
 import PouchDB from 'pouchdb';
+
 const db = new PouchDB('http://localhost:5984/listening');
 
 export function commentAdd(comment) {
-  return dispatch => {
+  return (dispatch) => {
     db.put(comment)
       .then(() => {
         dispatch({

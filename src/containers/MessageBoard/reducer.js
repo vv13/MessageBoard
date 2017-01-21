@@ -1,5 +1,6 @@
 import * as at from 'constants/actionTypes';
 import immutable from 'immutable';
+
 const getEmail = () => {
   try {
     if (localStorage) {
@@ -15,10 +16,6 @@ const initialState = immutable.fromJS({
   comments: [],
   userEmail: getEmail(),
 });
-
-// tmpList = state.get('terminalInfoList').toJS();
-// tmpList.push(action.info);
-// return state.update('terminalInfoList', () => immutable.fromJS(tmpList));
 
 export default function messageBoard(state = initialState, action) {
   switch (action.type) {
@@ -43,7 +40,6 @@ export default function messageBoard(state = initialState, action) {
     case at.COMMENT_LIKE: {
       const { commentId, userEmail, isLiked } = action;
       const comments = state.get('comments').toJS();
-      console.log(comments);
       const comment = comments.filter(e => e._id === commentId)[0];
       const index = comment.liked.indexOf(userEmail);
       if (isLiked) {

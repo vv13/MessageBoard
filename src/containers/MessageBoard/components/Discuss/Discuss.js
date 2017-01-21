@@ -6,6 +6,18 @@ import { Icon } from 'antd';
 import SendDiscussBoxConn from '../../SendDiscussBoxConn';
 import { getHeadUrl } from 'constants/utils';
 
+function convertDate(time) {
+  const date = new Date(time);
+  const t = date.toLocaleTimeString();
+  const d = date.toLocaleDateString();
+  return `${t}  ${d}`;
+}
+
+function genReplyTitle(obj) {
+  const normalTitle = <p>{obj.email}·{convertDate(obj.date)}</p>;
+  const replyTitle = <p>{obj.email}·回复：{obj.replyTo}</p>;
+  return obj.replyTo ? replyTitle : normalTitle;
+}
 class Discuss extends Component {
   static propTypes = {
     discuss: PropTypes.object,
@@ -29,18 +41,6 @@ class Discuss extends Component {
     this.setState({ showSendDiscuss: !this.state.showSendDiscuss });
   }
 
-  convertDate(time) {
-    const date = new Date(time);
-    const t = date.toLocaleTimeString();
-    const d = date.toLocaleDateString();
-    return `${t}  ${d}`;
-  }
-
-  genReplyTitle(obj) {
-    const normalTitle = <p>{obj.email}·{this.convertDate(obj.date)}</p>;
-    const replyTitle = <p>{obj.email}·回复：{obj.replyTo}</p>;
-    return obj.replyTo ? replyTitle : normalTitle;
-  }
 
   render() {
     const discuss = this.props.discuss;
@@ -54,10 +54,16 @@ class Discuss extends Component {
           </a>
         </div>
         <div className={style.textWrap}>
-          {this.genReplyTitle(discuss)}
+          {genReplyTitle(discuss)}
           <p className="discussComment">{discuss.comment}</p>
           <span id="replyBtn" onClick={this.handleReplyClick} className={style.replyBtn}><Icon type="enter" />回复</span>
-          {this.state.showSendDiscuss ? <SendDiscussBoxConn actions={this.props.actions} replyTo={discuss.email} commentId={this.props.commentId} isReply /> : null}
+          {this.state.showSendDiscuss ?
+            <SendDiscussBoxConn
+              actions={this.props.actions}
+              replyTo={discuss.email}
+              commentId={this.props.commentId}
+              isReply
+            /> : null}
         </div>
       </div>
     );

@@ -3,6 +3,11 @@ import { Input, Button, Form, Modal } from 'antd';
 import utils from 'utility';
 import classnames from 'classnames';
 
+function getHeadUrl(email) {
+  const md5 = utils.md5(email);
+  return `https://www.gravatar.com/avatar/${md5}`;
+}
+
 class SendDiscussBox extends Component {
   static propTypes = {
     isReply: PropTypes.bool,
@@ -26,10 +31,6 @@ class SendDiscussBox extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
   }
 
-  getHeadUrl(email) {
-    const md5 = utils.md5(email);
-    return `https://www.gravatar.com/avatar/${md5}`;
-  }
 
   handleDiscussCommit() {
     const { userEmail } = this.props.messageBoard.toJS();
@@ -162,7 +163,7 @@ class SendDiscussBox extends Component {
       >
         <div className={style.postBoxLeft}>
           <a className={style.userHeadUrl}>
-            <img alt="userhead" style={replyHeadStyle} src={this.getHeadUrl(userEmail)} className={classnames({ [style.userHead]: !isReply, [style.replyHead]: isReply })} />
+            <img alt="userhead" style={replyHeadStyle} src={getHeadUrl(userEmail)} className={classnames({ [style.userHead]: !isReply, [style.replyHead]: isReply })} />
           </a>
         </div>
         <div className={style.textWrap}>
@@ -172,7 +173,7 @@ class SendDiscussBox extends Component {
             value={this.state.discussInput}
             onChange={this.handleDiscussInput}
           />
-        {this.genCommitBtn()}
+          {this.genCommitBtn()}
         </div>
         {this.genModal()}
       </div>

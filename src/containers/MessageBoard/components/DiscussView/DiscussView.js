@@ -7,7 +7,6 @@ import Discuss from '../Discuss';
 
 class DiscussView extends Component {
   static propTypes = {
-    style: PropTypes.string,
     commentId: PropTypes.string,
     actions: PropTypes.object,
     discuss: PropTypes.array,
@@ -27,16 +26,20 @@ class DiscussView extends Component {
       <div
         className={style.discussView}
       >
-        <div className={style.triangle}>
-        </div>
-        <div className={style.triangleBorder}>
-        </div>
+        <div className={style.triangle} />
+        <div className={style.triangleBorder} />
         <SendDiscussBoxConn
           row="3"
           actions={this.props.actions}
           commentId={this.props.commentId}
         />
-      {discussArr.map((discuss) => <Discuss discuss={discuss} key={discuss.date} commentId={this.props.commentId} actions={this.props.actions} />)}
+        {discussArr.map((discuss) =>
+          <Discuss
+            discuss={discuss}
+            key={discuss.date}
+            commentId={this.props.commentId}
+            actions={this.props.actions}
+          />)}
       </div>
     );
   }

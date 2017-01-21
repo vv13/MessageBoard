@@ -1,8 +1,1 @@
-## listening
-这是用react实现的留言板。
-
-## 安装
-npm install
-
-## 运行
-npm start
+## Welcome to translate [user guide](docs/user_guide_zh.md) to English.

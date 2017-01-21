@@ -43,7 +43,7 @@ class Nav extends Component {
         </div>
       );
     }
-    return <div></div>;
+    return <div />;
   }
 
   showModal() {
